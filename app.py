@@ -30,15 +30,54 @@ db.create_all()
 def index():
     return render_template("index.html")
 
-@app.route("/cadastrar"):
+@app.route("/cadastrar")
 def cadastrar():
     return render_template("cadastro.html")
 
-@app.route("/cadastro", method = ['GET', 'POST']):
+@app.route("/cadastro", methods = ['GET', 'POST'])
 def cadastro():
     if request.method == "POST":
-        nome = request.form.get("nome") 
+        nome = request.form.get("nome")
+        telefone= request.form.get("telefone")
+        cpf= request.form.get("cpf")
+        email = request.form.get("email")
 
+        if nome and telefone and cpf and email:
+            p = Pessoa(nome, telefone, cpf, email)
+            db.session.add(p)
+            db.session.commit()
+    return redirect(url_for("index"))
+
+@app.route("/lista")
+def lista():
+    pessoas = Pessoa.query.all()
+    return render_template("lista.html", pessoas = pessoas)
+
+@app.route("/excluir/<int:id>")
+def excluir(id):
+    pessoa = Pessoa.query.filter_by(_id = id).first()
+    db.session.delete(pessoa)
+    db.session.commit()
+
+    pessoas = Pessoa.query.all()
+    return render_template("lista.html", pessoas = pessoas)
+
+@app.route( "/atualizar/<int:id>", methods=['GET', 'POST'])
+def atualizar(id):
+    pessoa = Pessoa.query.filter_by( _id = id).first()
+    if request.method == "POST":
+        nome = request.form.get("nome")
+        telefone = request.form.get("telefone")
+        email = request.form.get("email")
+        cpf = request.form.get("cpf")
+
+        if nome and telefone and cpf and email:
+            pessoa.nome = nome
+            pessoa.telefone = telefone
+            pessoa.email = email
+            db.session.commit()
+            return redirect(url_for("lista"))
+    return render_template("atualizar.html", pessoa = pessoa)
 
 if __name__  == '__main__':
     app.run(debug= True)

@@ -6,32 +6,32 @@
     <title>Document</title>
 </head>
 <body>
-    <h1> Cadastrar Usuário</h1>
+    <h1> Atualizar Usuário</h1>
     <hr/>
-    <form action="{{ url_for ('cadastro') }}" method="POST" >
+    <form action="" method="POST" >
         <table>
             <tr>
                 <td> Nome</td>
-                <td><input type="text" name="nome" id="nome"></td>
+                <td><input type="text" name="nome" id="nome" value="{{ pessoa.nome }}"></td>
             </tr>
 
             <tr>
                 <td> Telefone</td>
-                <td><input type="text" name="telefone" id="telefone"></td>
+                <td><input type="text" name="telefone" id="telefone" value="{{ pessoa.telefone }}"></td>
             </tr>
 
             <tr>
                 <td> CPF</td>
-                <td><input type="text" name="cpf" id="cpf"></td>
+                <td><input type="text" name="cpf" id="cpf" value="{{ pessoa.cpf }}"></td>
             </tr>
 
             <tr>
                 <td> E-mail</td>
-                <td><input type="text" name="email" id="email"></td>
+                <td><input type="text" name="email" id="email" value="{{ pessoa.email }}"></td>
             </tr>
         </table>
             <br/>
-            <button type="submit"> Cadastrar</button>
+            <button type="submit"> Atualizar Dados</button>
     </form>
 </body>
 </html>
